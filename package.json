@@ -17,8 +17,9 @@
     "next": "^13.1.6",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "react-dropzone": "^14.2.2",
-    "react-spinners": "^0.13.8"
+    "react-sketch-canvas": "^6.2.0",
+    "react-spinners": "^0.13.8",
+    "upload-js-full": "^1.22.0"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.8",

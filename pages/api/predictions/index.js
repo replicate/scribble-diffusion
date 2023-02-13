@@ -1,4 +1,4 @@
-const API_HOST = process.env.REPLICATE_API_HOST || "https://api.replicate.com";
+const REPLICATE_API_HOST = "https://api.replicate.com";
 
 import packageData from "../../../package.json";
 
@@ -6,16 +6,10 @@ export default async function handler(req, res) {
   if (!process.env.REPLICATE_API_TOKEN) {
     throw new Error("The REPLICATE_API_TOKEN environment variable is not set. See README.md for instructions on how to set it.");
   }
-  
-  // remnove null and undefined values
-  req.body = Object.entries(req.body).reduce(
-    (a, [k, v]) => (v == null ? a : ((a[k] = v), a)),
-    {}
-  );
 
   const body = JSON.stringify({
-    // https://replicate.com/timothybrooks/instruct-pix2pix/versions
-    version: "30c1d0b916a6f8efce20493f5d61ee27491ab2a60437c13c588468b9810ec23f",
+    // https://replicate.com/jagilley/controlnet-scribble/versions
+    version: "7662e0d3fcef5a349d2ae500322429e5f177635af14f79e76a58d07730d6d6f7",
     input: req.body,
   });
 
@@ -25,7 +19,7 @@ export default async function handler(req, res) {
     "User-Agent": `${packageData.name}/${packageData.version}`
   }
 
-  const response = await fetch(`${API_HOST}/v1/predictions`, {
+  const response = await fetch(`${REPLICATE_API_HOST}/v1/predictions`, {
     method: "POST",
     headers,
     body,

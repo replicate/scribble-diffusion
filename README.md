@@ -8,7 +8,7 @@ This app is powered by:
 
 🚀 [Replicate](https://replicate.com/?utm_source=project&utm_campaign=scribblediffusion), a platform for running machine learning models in the cloud.
 
-🎨 [InstructPix2Pix](https://replicate.com/timothybrooks/instruct-pix2pix?utm_source=project&utm_campaign=scribblediffusion), an open-source machine learning model that generates images from text.
+🎨 [TODO](https://replicate.com/TODO?utm_source=project&utm_campaign=scribblediffusion), an open-source machine learning model that generates images from text and scribbles.
 
 ▲ [Vercel](https://vercel.com/), a platform for running web apps.
 

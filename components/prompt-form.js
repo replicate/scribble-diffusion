@@ -17,9 +17,6 @@ export default function PromptForm({
     onSubmit(e);
   };
 
-  if (disabled) {
-    return;
-  }
 
   return (
     <form onSubmit={handleSubmit} className="animate-in fade-in duration-700">

@@ -1,30 +1,31 @@
-import Messages from "components/messages";
+import Canvas from "components/canvas";
 import PromptForm from "components/prompt-form";
 import Head from "next/head";
-import { useEffect, useState } from "react";
-
+import { useState } from "react";
 import Footer from "components/footer";
+import uploadFile from "lib/upload";
+import Script from 'next/script'
 
-// import { getRandomSeed } from "lib/seeds";
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
 export const appName = "Scribble Diffusion";
-export const appSubtitle = "TODO";
-export const appMetaDescription = "TODO";
+export const appSubtitle = "Turn your rough sketch into a refined image using Stable Diffusion";
+export const appMetaDescription = appSubtitle
+
 
 export default function Home() {
-  const [events, setEvents] = useState([]);
-  const [predictions, setPredictions] = useState([]);
   const [error, setError] = useState(null);
+  const [predictions, setPredictions] = useState([]);
   const [isProcessing, setIsProcessing] = useState(false);
-  const [seed] = useState({prompt: "I am the default prompt"});
+  const [seed] = useState({prompt: "a photo of a red helium balloon"});
   const [initialPrompt, setInitialPrompt] = useState(seed.prompt);
+  const [scribble, setScribble] = useState(null);
 
-  // set the initial image from a random seed
-  useEffect(() => {
-    setEvents([{ image: seed.image }]);
-  }, [seed.image]);
+  // // set the initial image from a random seed
+  // useEffect(() => {
+  //   setEvents([{ image: seed.image }]);
+  // }, [seed.image]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -33,12 +34,18 @@ export default function Home() {
 
     setError(null);
     setIsProcessing(true);
-    setInitialPrompt("");
+    // setInitialPrompt("");
+
+    console.log({scribble})
+
+    const fileUrl = await uploadFile(scribble);
 
     const body = {
       prompt,
-      // image: TODO,
+      input_image: fileUrl,
     };
+
+    console.log({body})
 
     const response = await fetch("/api/predictions", {
       method: "POST",
@@ -48,6 +55,8 @@ export default function Home() {
       body: JSON.stringify(body),
     });
     let prediction = await response.json();
+
+    console.log({prediction})
 
     if (response.status !== 201) {
       setError(prediction.detail);
@@ -65,29 +74,21 @@ export default function Home() {
         setError(prediction.detail);
         return;
       }
-
-      // just for bookkeeping
-      setPredictions(predictions.concat([prediction]));
-
-      if (prediction.status === "succeeded") {
-        setEvents(
-          myEvents.concat([
-            { image: prediction.output?.[prediction.output.length - 1] },
-          ])
-        );
-      }
     }
 
+    setPredictions(predictions.concat([prediction]));
+    console.log({predictions})
     setIsProcessing(false);
   };
 
   const startOver = async (e) => {
     e.preventDefault();
-    setEvents(events.slice(0, 1));
     setError(null);
+    setScribble(null)
     setIsProcessing(false);
     setInitialPrompt(seed.prompt);
   };
+
 
   return (
     <div>
@@ -97,6 +98,7 @@ export default function Home() {
         <meta property="og:title" content={appName} />
         <meta property="og:description" content={appMetaDescription} />
         <meta property="og:image" content="https://scribblediffusion.com/opengraph.jpg" />
+        
       </Head>
 
       <main className="container max-w-[700px] mx-auto p-5">
@@ -107,10 +109,10 @@ export default function Home() {
           </p>
         </hgroup>
 
+        <Canvas onScribble={setScribble} />
 
         <PromptForm
           initialPrompt={initialPrompt}
-          isFirstPrompt={events.length === 1}
           onSubmit={handleSubmit}
           disabled={isProcessing}
         />
@@ -119,11 +121,12 @@ export default function Home() {
           {error && <p className="bold text-red-500 pb-5">{error}</p>}
         </div>
 
-        <Footer
-          events={events}
+        {/* <Footer
           startOver={startOver}
-        />
+        /> */}
       </main>
+      
+      <Script src="https://js.upload.io/upload-js-full/v1" />
     </div>
   );
 }

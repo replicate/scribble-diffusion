@@ -15,7 +15,7 @@ export default function Footer({ events, startOver }) {
             What is this?
         </Link>
 
-        {events.length > 1 && (
+        {/* {events.length > 1 && (
           <button className="lil-button" onClick={startOver}>
             <StartOverIcon className="icon" />
             Start over
@@ -27,7 +27,7 @@ export default function Footer({ events, startOver }) {
               <DownloadIcon className="icon" />
               Download image
           </Link>
-        )}
+        )} */}
 
         <Link href="https://github.com/replicate/instruct-pix2pix-demo" className="lil-button" target="_blank" rel="noopener noreferrer">
 
@@ -39,7 +39,7 @@ export default function Footer({ events, startOver }) {
       <div className="text-center lil-text mt-8">
       <div className="inline-block py-2 px-4 border border-yellow-200 rounded-lg bg-[#fef6aa]">
       🤔 Are you a developer and want to learn how to build this? Check out the{" "}
-        <Link href="https://github.com/replicate/paint-with-words#readme" target="_blank">
+        <Link href="https://github.com/replicate/scribble-diffusion#readme" target="_blank">
         README
         </Link>.
       </div>
