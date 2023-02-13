@@ -1,0 +1,54 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+input {
+  @apply border;
+  @apply border-solid;
+  @apply border-gray-300;
+  /* @apply rounded-md; */
+  @apply px-4;
+  @apply py-2;
+}
+
+.border-hairline {
+  @apply border border-black border-opacity-10;
+}
+
+.lil-button {
+  @apply inline-block;
+  @apply text-sm;
+  @apply text-gray-500;
+  @apply rounded-md;
+  @apply py-2;
+  @apply mx-3;
+}
+
+.lil-text {
+  @apply text-sm;
+  @apply text-gray-500;
+}
+
+.lil-text a {
+  @apply text-gray-800;
+  @apply underline;
+}
+
+.icon {
+  @apply inline relative mr-1;
+  top: -0.1em;
+  width: 1.1em;
+  height: 1.1em;
+}
+
+.prose {
+  @apply mt-8;
+  @apply text-lg;
+  @apply text-gray-500;
+  @apply leading-7;
+}
+
+.prose a {
+  @apply text-gray-600;
+  @apply underline;
+}
