@@ -7,6 +7,7 @@ const nextConfig = {
       "replicate.com",
       "replicate.delivery",
       "user-images.githubusercontent.com",
+      "upcdn.io"
     ],
   }
 };

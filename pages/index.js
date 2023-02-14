@@ -2,9 +2,11 @@ import Canvas from "components/canvas";
 import PromptForm from "components/prompt-form";
 import Head from "next/head";
 import { useState } from "react";
+import Predictions from "components/predictions";
 import Footer from "components/footer";
 import uploadFile from "lib/upload";
 import Script from 'next/script'
+import { PulseLoader } from "react-spinners";
 
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
@@ -16,7 +18,8 @@ export const appMetaDescription = appSubtitle
 
 export default function Home() {
   const [error, setError] = useState(null);
-  const [predictions, setPredictions] = useState([]);
+  const [submissionCount, setSubmissionCount] = useState(0);
+  const [predictions, setPredictions] = useState({});
   const [isProcessing, setIsProcessing] = useState(false);
   const [seed] = useState({prompt: "a photo of a red helium balloon"});
   const [initialPrompt, setInitialPrompt] = useState(seed.prompt);
@@ -29,6 +32,9 @@ export default function Home() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // track submissions so we can show a spinner while waiting for the prediction to be created
+    setSubmissionCount(submissionCount + 1)
 
     const prompt = e.target.prompt.value;
 
@@ -54,9 +60,11 @@ export default function Home() {
       },
       body: JSON.stringify(body),
     });
-    let prediction = await response.json();
+    const prediction = await response.json();
 
-    console.log({prediction})
+    console.log("prediction created", prediction)
+    setPredictions(predictions => ({ ...predictions, [prediction.id]: prediction }));
+    console.log({predictions})
 
     if (response.status !== 201) {
       setError(prediction.detail);
@@ -69,14 +77,16 @@ export default function Home() {
     ) {
       await sleep(500);
       const response = await fetch("/api/predictions/" + prediction.id);
-      prediction = await response.json();
+      const updatedPrediction = await response.json();
+      console.log("prediction updated", updatedPrediction)
+      setPredictions(predictions => ({ ...predictions, [updatedPrediction.id]: updatedPrediction }));
       if (response.status !== 200) {
-        setError(prediction.detail);
+        setError(updatedPrediction.detail);
         return;
       }
     }
 
-    setPredictions(predictions.concat([prediction]));
+    console.log("prediction completed!")    
     console.log({predictions})
     setIsProcessing(false);
   };
@@ -114,12 +124,21 @@ export default function Home() {
         <PromptForm
           initialPrompt={initialPrompt}
           onSubmit={handleSubmit}
-          disabled={isProcessing}
+          isProcessing={isProcessing}
         />
+
+        
+        {submissionCount > 0 && submissionCount > Object.keys(predictions).length && (
+          <div className="my-10 mx-auto w-full text-center">
+            <PulseLoader />
+          </div>
+        )}
 
         <div className="mx-auto w-full">
           {error && <p className="bold text-red-500 pb-5">{error}</p>}
         </div>
+
+        <Predictions predictions={predictions} isProcessing={isProcessing} />
 
         {/* <Footer
           startOver={startOver}

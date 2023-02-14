@@ -3,6 +3,7 @@ import { ReactSketchCanvas } from "react-sketch-canvas";
 
 import {
   Undo as UndoIcon,
+  Trash as TrashIcon,
 } from "lucide-react";
 
 export default function Canvas({onScribble}) {
@@ -25,6 +26,10 @@ export default function Canvas({onScribble}) {
     canvasRef.current.undo();
   };
 
+  const reset = () => {
+    canvasRef.current.resetCanvas();
+  };
+
   // const paths = await canvasRef.current.exportPaths();
 
   return (
@@ -37,9 +42,14 @@ export default function Canvas({onScribble}) {
       onChange={onChange}
     />
 
-<button className="lil-button" onClick={undo}>
-      <UndoIcon className="icon" />
-      Undo
+    <button className="lil-button" onClick={undo}>
+    <UndoIcon className="icon" />
+      Undo last stroke
+    </button>
+
+    <button className="lil-button" onClick={reset}>
+      <TrashIcon className="icon" />
+      Clear canvas
     </button>
     </div>
   );
