@@ -9,7 +9,7 @@ export default async function handler(req, res) {
 
   const body = JSON.stringify({
     // https://replicate.com/jagilley/controlnet-scribble/versions
-    version: "7662e0d3fcef5a349d2ae500322429e5f177635af14f79e76a58d07730d6d6f7",
+    version: "435061a1b5a4c1e26740464bf786efdfa9cb3a3ac488595a2de23e143fdb0117",
     input: req.body,
   });
 
