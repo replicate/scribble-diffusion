@@ -11,13 +11,9 @@ export default function Canvas({ onScribble }) {
   const onChange = async () => {
     const paths = await canvasRef.current.exportPaths();
 
-    console.log("onChange!");
     setScribbleExists(paths.length > 0);
 
-    // only respond if there are paths to draw (don't want to send a blank canvas)
-    if (!paths.length) {
-      return;
-    }
+    if (!scribbleExists) return;
 
     const data = await canvasRef.current.exportImage("png");
     onScribble(data);
