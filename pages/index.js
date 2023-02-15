@@ -48,7 +48,7 @@ export default function Home() {
 
     const body = {
       prompt,
-      input_image: fileUrl,
+      image: fileUrl,
     };
 
     console.log({body})

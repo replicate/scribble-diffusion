@@ -9,7 +9,7 @@ function Prediction ({prediction}) {
     <div className="flex">
       <div className="w-1/2 aspect-square relative">
       <Image
-        src={prediction.input.input_image}
+        src={prediction.input.image}
         alt="input scribble"
         fill
       />
