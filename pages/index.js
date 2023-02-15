@@ -18,7 +18,8 @@ export default function Home() {
   const [submissionCount, setSubmissionCount] = useState(0);
   const [predictions, setPredictions] = useState({});
   const [isProcessing, setIsProcessing] = useState(false);
-  const [seed] = useState({ prompt: "a photo of a red helium balloon" });
+  const [scribbleExists, setScribbleExists] = useState(false);
+  const [seed] = useState({ prompt: "" });
   const [initialPrompt, setInitialPrompt] = useState(seed.prompt);
   const [scribble, setScribble] = useState(null);
 
@@ -85,14 +86,6 @@ export default function Home() {
     setIsProcessing(false);
   };
 
-  const startOver = async (e) => {
-    e.preventDefault();
-    setError(null);
-    setScribble(null);
-    setIsProcessing(false);
-    setInitialPrompt(seed.prompt);
-  };
-
   return (
     <div>
       <Head>
@@ -113,12 +106,17 @@ export default function Home() {
             <p className="text-center text-xl opacity-60 m-4">{appSubtitle}</p>
           </hgroup>
 
-          <Canvas onScribble={setScribble} />
+          <Canvas
+            onScribble={setScribble}
+            scribbleExists={scribbleExists}
+            setScribbleExists={setScribbleExists}
+          />
 
           <PromptForm
             initialPrompt={initialPrompt}
             onSubmit={handleSubmit}
             isProcessing={isProcessing}
+            disabled={!scribbleExists}
           />
 
           <div className="mx-auto w-full">
@@ -132,9 +130,7 @@ export default function Home() {
           submissionCount={submissionCount}
         />
 
-        {/* <Footer
-          startOver={startOver}
-        /> */}
+        <Footer />
       </main>
 
       <Script src="https://js.upload.io/upload-js-full/v1" />

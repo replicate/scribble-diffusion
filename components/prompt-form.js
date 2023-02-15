@@ -25,21 +25,19 @@ export default function PromptForm({
           name="prompt"
           value={prompt}
           onChange={(e) => setPrompt(e.target.value)}
-          placeholder="Enter a prompt..."
-          className={`block w-full flex-grow${
-            disabled ? " rounded-md" : " rounded-l-md"
-          }`}
-          disabled={disabled}
+          placeholder="Describe the image you want to create..."
+          className="block w-full flex-grow rounded-l-md"
         />
 
-        {disabled || (
-          <button
-            className="bg-black text-white rounded-r-md text-small inline-block p-3 flex-none"
-            type="submit"
-          >
-            Go
-          </button>
-        )}
+        <button
+          className={`bg-black text-white rounded-r-md text-small inline-block p-3 flex-none ${
+            disabled ? "opacity-20 cursor-not-allowed	" : ""
+          }`}
+          type="submit"
+          disabled={disabled}
+        >
+          Go
+        </button>
       </div>
     </form>
   );

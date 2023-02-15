@@ -4,9 +4,13 @@ import { ReactSketchCanvas } from "react-sketch-canvas";
 
 import { Undo as UndoIcon, Trash as TrashIcon } from "lucide-react";
 
-export default function Canvas({ onScribble }) {
+export default function Canvas({
+  onScribble,
+  scribbleExists,
+  setScribbleExists,
+}) {
   const canvasRef = React.useRef(null);
-  const [scribbleExists, setScribbleExists] = useState(false);
+  const [hasScribbledBefore, setHasScribbledBefore] = useState(false);
 
   const onChange = async () => {
     const paths = await canvasRef.current.exportPaths();
@@ -14,6 +18,8 @@ export default function Canvas({ onScribble }) {
     setScribbleExists(paths.length > 0);
 
     if (!scribbleExists) return;
+
+    setHasScribbledBefore(true);
 
     const data = await canvasRef.current.exportImage("png");
     onScribble(data);
@@ -32,9 +38,20 @@ export default function Canvas({ onScribble }) {
 
   return (
     <div className="relative">
-      {scribbleExists || (
-        <div className="absolute grid w-full h-full place-items-center pointer-events-none opacity-40 text-xl">
-          Draw something here!
+      {scribbleExists || hasScribbledBefore || (
+        <div>
+          <div className="absolute grid w-full h-full place-items-center pointer-events-none opacity-40 text-xl">
+            Draw something here.
+            <video
+              autoPlay
+              loop
+              muted
+              playsInline
+              clasName="w-full cursor-pointer"
+            >
+              <source src="/get-started.mp4" />
+            </video>
+          </div>
         </div>
       )}
 
