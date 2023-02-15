@@ -40,15 +40,9 @@ export default function Canvas({
     <div className="relative">
       {scribbleExists || hasScribbledBefore || (
         <div>
-          <div className="absolute grid w-full h-full place-items-center pointer-events-none text-xl">
+          <div className="absolute grid w-full h-full p-3 place-items-center pointer-events-none text-xl">
             <span className="opacity-40">Draw something here.</span>
-            <video
-              autoPlay
-              loop
-              muted
-              playsInline
-              clasName="w-full cursor-pointer"
-            >
+            <video autoPlay loop muted playsInline>
               <source src="/happy-monster.mp4" />
             </video>
           </div>
@@ -57,7 +51,7 @@ export default function Canvas({
 
       <ReactSketchCanvas
         ref={canvasRef}
-        className="w-full aspect-square"
+        className="w-full aspect-square border-none"
         strokeWidth={4}
         strokeColor="black"
         onChange={onChange}
