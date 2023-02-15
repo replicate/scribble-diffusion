@@ -1,6 +1,6 @@
 {
   "name": "scribble-diffusion",
-  "description": "TODO",
+  "description": "Turn your sketch into a refined image using AI",
   "version": "1.0.0",
   "private": true,
   "scripts": {
