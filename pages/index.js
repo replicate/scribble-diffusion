@@ -70,7 +70,6 @@ export default function Home() {
       prediction.status !== "failed"
     ) {
       await sleep(500);
-      console.log("something is happening");
       const response = await fetch("/api/predictions/" + prediction.id);
       prediction = await response.json();
       setPredictions((predictions) => ({

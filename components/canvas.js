@@ -1,13 +1,18 @@
 import * as React from "react";
+import { useState } from "react";
 import { ReactSketchCanvas } from "react-sketch-canvas";
 
 import { Undo as UndoIcon, Trash as TrashIcon } from "lucide-react";
 
 export default function Canvas({ onScribble }) {
   const canvasRef = React.useRef(null);
+  const [scribbleExists, setScribbleExists] = useState(false);
 
   const onChange = async () => {
     const paths = await canvasRef.current.exportPaths();
+
+    console.log("onChange!");
+    setScribbleExists(paths.length > 0);
 
     // only respond if there are paths to draw (don't want to send a blank canvas)
     if (!paths.length) {
@@ -23,13 +28,20 @@ export default function Canvas({ onScribble }) {
   };
 
   const reset = () => {
+    setScribbleExists(false);
     canvasRef.current.resetCanvas();
   };
 
   // const paths = await canvasRef.current.exportPaths();
 
   return (
-    <div>
+    <div className="relative">
+      {scribbleExists || (
+        <div className="absolute grid w-full h-full place-items-center pointer-events-none opacity-40 text-xl">
+          Draw something here!
+        </div>
+      )}
+
       <ReactSketchCanvas
         ref={canvasRef}
         className="w-full aspect-square"
@@ -38,15 +50,18 @@ export default function Canvas({ onScribble }) {
         onChange={onChange}
       />
 
-      <button className="lil-button" onClick={undo}>
-        <UndoIcon className="icon" />
-        Undo last stroke
-      </button>
-
-      <button className="lil-button" onClick={reset}>
-        <TrashIcon className="icon" />
-        Clear canvas
-      </button>
+      {scribbleExists && (
+        <div className="animate-in fade-in duration-700 text-left">
+          <button className="lil-button" onClick={undo}>
+            <UndoIcon className="icon" />
+            Undo
+          </button>
+          <button className="lil-button" onClick={reset}>
+            <TrashIcon className="icon" />
+            Clear
+          </button>
+        </div>
+      )}
     </div>
   );
 }
