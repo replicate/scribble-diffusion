@@ -34,8 +34,6 @@ export default function Canvas({
     canvasRef.current.resetCanvas();
   };
 
-  // const paths = await canvasRef.current.exportPaths();
-
   return (
     <div className="relative">
       {scribbleExists || hasScribbledBefore || (
