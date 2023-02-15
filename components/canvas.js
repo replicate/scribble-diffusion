@@ -40,8 +40,8 @@ export default function Canvas({
     <div className="relative">
       {scribbleExists || hasScribbledBefore || (
         <div>
-          <div className="absolute grid w-full h-full place-items-center pointer-events-none opacity-40 text-xl">
-            Draw something here.
+          <div className="absolute grid w-full h-full place-items-center pointer-events-none text-xl">
+            <span className="opacity-40">Draw something here.</span>
             <video
               autoPlay
               loop
@@ -49,7 +49,7 @@ export default function Canvas({
               playsInline
               clasName="w-full cursor-pointer"
             >
-              <source src="/get-started.mp4" />
+              <source src="/happy-monster.mp4" />
             </video>
           </div>
         </div>
