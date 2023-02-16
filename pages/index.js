@@ -7,8 +7,7 @@ import Footer from "components/footer";
 import uploadFile from "lib/upload";
 import Script from "next/script";
 import seeds from "lib/seeds";
-
-const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+import sleep from "lib/sleep";
 
 export const appName = "Scribble Diffusion";
 export const appSubtitle = "Turn your sketch into a refined image using AI";
