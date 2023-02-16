@@ -6,6 +6,7 @@ import Predictions from "components/predictions";
 import Footer from "components/footer";
 import uploadFile from "lib/upload";
 import Script from "next/script";
+import seeds from "lib/seeds";
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
@@ -19,7 +20,7 @@ export default function Home() {
   const [predictions, setPredictions] = useState({});
   const [isProcessing, setIsProcessing] = useState(false);
   const [scribbleExists, setScribbleExists] = useState(false);
-  const [seed] = useState({ prompt: "" });
+  const [seed] = useState(seeds[Math.floor(Math.random() * seeds.length)]);
   const [initialPrompt, setInitialPrompt] = useState(seed.prompt);
   const [scribble, setScribble] = useState(null);
 
@@ -107,6 +108,7 @@ export default function Home() {
           </hgroup>
 
           <Canvas
+            startingPaths={seed.paths}
             onScribble={setScribble}
             scribbleExists={scribbleExists}
             setScribbleExists={setScribbleExists}

@@ -1,25 +1,34 @@
 import * as React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { ReactSketchCanvas } from "react-sketch-canvas";
 
 import { Undo as UndoIcon, Trash as TrashIcon } from "lucide-react";
 
 export default function Canvas({
+  startingPaths,
   onScribble,
   scribbleExists,
   setScribbleExists,
 }) {
   const canvasRef = React.useRef(null);
-  const [hasScribbledBefore, setHasScribbledBefore] = useState(false);
+
+  useEffect(() => {
+    loadStartingPaths();
+  }, []);
+
+  async function loadStartingPaths() {
+    await canvasRef.current.loadPaths(startingPaths);
+    setScribbleExists(true);
+    onChange();
+  }
 
   const onChange = async () => {
     const paths = await canvasRef.current.exportPaths();
+    // localStorage.setItem("paths", JSON.stringify(paths, null, 2));
 
-    setScribbleExists(paths.length > 0);
+    if (!paths.length) return;
 
-    if (!scribbleExists) return;
-
-    setHasScribbledBefore(true);
+    setScribbleExists(true);
 
     const data = await canvasRef.current.exportImage("png");
     onScribble(data);
@@ -36,13 +45,10 @@ export default function Canvas({
 
   return (
     <div className="relative">
-      {scribbleExists || hasScribbledBefore || (
+      {scribbleExists || (
         <div>
           <div className="absolute grid w-full h-full p-3 place-items-center pointer-events-none text-xl">
             <span className="opacity-40">Draw something here.</span>
-            <video autoPlay loop muted playsInline>
-              <source src="/happy-monster.mp4" />
-            </video>
           </div>
         </div>
       )}
@@ -53,6 +59,7 @@ export default function Canvas({
         strokeWidth={4}
         strokeColor="black"
         onChange={onChange}
+        withTimestamp={true}
       />
 
       {scribbleExists && (
