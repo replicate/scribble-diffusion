@@ -24,7 +24,7 @@ export default function Canvas({
 
   const onChange = async () => {
     const paths = await canvasRef.current.exportPaths();
-    // localStorage.setItem("paths", JSON.stringify(paths, null, 2));
+    localStorage.setItem("paths", JSON.stringify(paths, null, 2));
 
     if (!paths.length) return;
 
