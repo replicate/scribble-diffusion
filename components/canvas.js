@@ -1,6 +1,8 @@
 import * as React from "react";
 import { useState, useEffect } from "react";
 import { ReactSketchCanvas } from "react-sketch-canvas";
+import sleep from "lib/sleep";
+import { cloneDeep } from "lodash";
 
 import { Undo as UndoIcon, Trash as TrashIcon } from "lucide-react";
 
@@ -17,14 +19,24 @@ export default function Canvas({
   }, []);
 
   async function loadStartingPaths() {
-    await canvasRef.current.loadPaths(startingPaths);
+    for (let i = 0; i < startingPaths.length; i++) {
+      const pathsSoFar = cloneDeep(startingPaths).slice(0, i + 1);
+      for (let j = 0; j < startingPaths[i].paths.length; j++) {
+        if (j % 10 === 0) {
+          pathsSoFar[i].paths = startingPaths[i].paths.slice(0, j + 1);
+          await canvasRef.current.loadPaths(pathsSoFar);
+          await sleep(1);
+        }
+      }
+    }
+
     setScribbleExists(true);
     onChange();
   }
 
   const onChange = async () => {
     const paths = await canvasRef.current.exportPaths();
-    localStorage.setItem("paths", JSON.stringify(paths, null, 2));
+    // localStorage.setItem("paths", JSON.stringify(paths, null, 2));
 
     if (!paths.length) return;
 
