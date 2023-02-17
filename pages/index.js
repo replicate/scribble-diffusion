@@ -21,25 +21,19 @@ export default function Home() {
   const [isProcessing, setIsProcessing] = useState(false);
   const [scribbleExists, setScribbleExists] = useState(false);
   const [seed] = useState(seeds[Math.floor(Math.random() * seeds.length)]);
-  const [initialPrompt, setInitialPrompt] = useState(seed.prompt);
+  const [initialPrompt] = useState(seed.prompt);
   const [scribble, setScribble] = useState(null);
-
-  // // set the initial image from a random seed
-  // useEffect(() => {
-  //   setEvents([{ image: seed.image }]);
-  // }, [seed.image]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // track submissions so we can show a spinner while waiting for the prediction to be created
+    // track submissions so we can show a spinner while waiting for the next prediction to be created
     setSubmissionCount(submissionCount + 1);
 
     const prompt = e.target.prompt.value;
 
     setError(null);
     setIsProcessing(true);
-    // setInitialPrompt("");
 
     const fileUrl = await uploadFile(scribble);
 
