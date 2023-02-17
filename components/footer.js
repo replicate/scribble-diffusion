@@ -19,18 +19,15 @@ export default function Footer({ events }) {
           href="https://replicate.com/jagilley/controlnet-scribble?utm_source=project&utm_campaign=scribblediffusion"
           target="_blank"
         >
-          ControlNet
-        </Link>
-        ,{" "}
-        <Link
-          href="https://replicate.com/jagilley/controlnet-scribble?utm_source=project&utm_campaign=scribblediffusion"
-          target="_blank"
-        >
           Replicate
         </Link>
         ,{" "}
         <Link href="https://vercel.com/templates/ai" target="_blank">
           Vercel
+        </Link>
+        ,{" "}
+        <Link href="https://upload.io" target="_blank">
+          Upload
         </Link>
         , and{" "}
         <Link
