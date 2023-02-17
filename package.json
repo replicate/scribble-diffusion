@@ -15,6 +15,7 @@
   },
   "dependencies": {
     "@vercel/analytics": "^0.1.10",
+    "@vercel/og": "^0.1.0",
     "copy-to-clipboard": "^3.3.3",
     "lodash": "^4.17.21",
     "lucide-react": "^0.88.0",

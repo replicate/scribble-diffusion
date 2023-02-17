@@ -8,6 +8,7 @@ import pkg from "../../package.json";
 export default function Scribble() {
   const { query } = useRouter();
 
+  const [predictionId, setPredictionId] = useState(null);
   const [prediction, setPrediction] = useState(null);
   const [error, setError] = useState(null);
   const [queryResolved, setQueryResolved] = useState(false);
@@ -21,6 +22,7 @@ export default function Scribble() {
       // Next.js seems to sometimes call this hook multiple times, so we need
       // to make sure we only fetch the prediction once
       setQueryResolved(true);
+      setPredictionId(query.id);
 
       const fetchPrediction = async () => {
         const response = await fetch(`/api/predictions/${query.id}`);
@@ -43,6 +45,10 @@ export default function Scribble() {
           {prediction && `${prediction.input.prompt} - `}
           {pkg.appName}
         </title>
+        <meta
+          property="og:image"
+          content={`https://scribblediffusion.com/api/og?id=${predictionId}`}
+        />
       </Head>
       <main className="container max-w-[1024px] mx-auto p-5">
         <Prediction prediction={prediction} showLinkToNewScribble={true} />

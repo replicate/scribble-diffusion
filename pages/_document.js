@@ -12,7 +12,7 @@ export default function Document() {
         <meta property="og:description" content={pkg.appMetaDescription} />
         <meta
           property="og:image"
-          content="https://scribblediffusion.com/opengraph.jpg"
+          content="https://scribblediffusion.com/api/og"
         />
       </Head>
 
