@@ -14,7 +14,7 @@
     "test": "npm run lint && npm run build"
   },
   "dependencies": {
-    "@vercel/analytics": "^0.1.8",
+    "@vercel/analytics": "^0.1.10",
     "copy-to-clipboard": "^3.3.3",
     "lodash": "^4.17.21",
     "lucide-react": "^0.88.0",
