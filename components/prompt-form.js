@@ -3,9 +3,11 @@ import { useEffect, useState } from "react";
 export default function PromptForm({
   initialPrompt,
   onSubmit,
-  disabled = false,
+  scribbleExists,
 }) {
   const [prompt, setPrompt] = useState(initialPrompt);
+
+  const disabled = !(scribbleExists && prompt?.length > 0);
 
   useEffect(() => {
     setPrompt(initialPrompt);
@@ -30,7 +32,7 @@ export default function PromptForm({
         />
 
         <button
-          className={`bg-black text-white rounded-r-md text-small inline-block p-3 flex-none ${
+          className={`bg-black text-white rounded-r-md text-small inline-block px-5 py-3 flex-none ${
             disabled ? "opacity-20 cursor-not-allowed	" : ""
           }`}
           type="submit"

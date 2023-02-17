@@ -104,7 +104,7 @@ export default function Home() {
             initialPrompt={initialPrompt}
             onSubmit={handleSubmit}
             isProcessing={isProcessing}
-            disabled={!scribbleExists}
+            scribbleExists={scribbleExists}
           />
 
           <Error error={error} />
