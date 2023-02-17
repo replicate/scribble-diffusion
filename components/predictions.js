@@ -3,7 +3,7 @@ import { Copy as CopyIcon, PlusCircle as PlusCircleIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { Fragment, useEffect, useRef, useState } from "react";
-import PulseLoader from "react-spinners/PulseLoader";
+import Loader from "components/loader";
 
 export default function Predictions({ predictions, submissionCount }) {
   const scrollRef = useRef(null);
@@ -23,7 +23,7 @@ export default function Predictions({ predictions, submissionCount }) {
       {submissionCount > Object.keys(predictions).length && (
         <div className="pb-10 mx-auto w-full text-center">
           <div className="pt-10" ref={scrollRef} />
-          <PulseLoader />
+          <Loader />
         </div>
       )}
 
@@ -78,7 +78,7 @@ export function Prediction({ prediction, showLinkToNewScribble = false }) {
             />
           ) : (
             <div className="grid h-full place-items-center">
-              <PulseLoader />
+              <Loader />
             </div>
           )}
         </div>
