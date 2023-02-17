@@ -1,5 +1,8 @@
-import { Fragment, useRef, useEffect } from "react";
+import copy from "copy-to-clipboard";
+import { Copy as CopyIcon, PlusCircle as PlusCircleIcon } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
+import { Fragment, useEffect, useRef, useState } from "react";
 import PulseLoader from "react-spinners/PulseLoader";
 
 export default function Predictions({ predictions, submissionCount }) {
@@ -40,11 +43,30 @@ export default function Predictions({ predictions, submissionCount }) {
   );
 }
 
-function Prediction({ prediction }) {
+export function Prediction({ prediction, showLinkToNewScribble = false }) {
+  const [linkCopied, setLinkCopied] = useState(false);
+
+  const copyLink = () => {
+    const url = window.location.origin + "/scribbles/" + prediction.id;
+    copy(url);
+    setLinkCopied(true);
+  };
+
+  // Clear the "Copied!" message after 4 seconds
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      setLinkCopied(false);
+    }, 4 * 1000);
+
+    return () => clearInterval(intervalId);
+  }, []);
+
+  if (!prediction) return null;
+
   return (
-    <div className="shadow-lg border my-10 p-5 bg-white">
-      <div className="flex">
-        <div className="w-1/2 aspect-square relative">
+    <div className="mt-6 mb-12">
+      <div className="shadow-lg border my-5 p-5 bg-white flex">
+        <div className="w-1/2 aspect-square relative border">
           <Image src={prediction.input.image} alt="input scribble" fill />
         </div>
         <div className="w-1/2 aspect-square relative">
@@ -61,8 +83,23 @@ function Prediction({ prediction }) {
           )}
         </div>
       </div>
-      <div className="text-center pt-4 opacity-80">
-        {prediction.input.prompt}
+      <div className="text-center px-4 opacity-60 text-xl">
+        &ldquo;{prediction.input.prompt}&rdquo;
+      </div>
+      <div className="text-center py-2">
+        <button className="lil-button" onClick={copyLink}>
+          <CopyIcon className="icon" />
+          {linkCopied ? "Copied!" : "Copy link"}
+        </button>
+
+        {showLinkToNewScribble && (
+          <Link href="/">
+            <button className="lil-button" onClick={copyLink}>
+              <PlusCircleIcon className="icon" />
+              Create a new scribble
+            </button>
+          </Link>
+        )}
       </div>
     </div>
   );

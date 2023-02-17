@@ -1,6 +1,9 @@
 {
   "name": "scribble-diffusion",
   "description": "Turn your sketch into a refined image using AI",
+  "appName": "Scribble Diffusion",
+  "appSubtitle": "Turn your sketch into a refined image using AI",
+  "appMetaDescription": "Turn your sketch into a refined image using AI",
   "version": "1.0.0",
   "private": true,
   "scripts": {
@@ -12,6 +15,7 @@
   },
   "dependencies": {
     "@vercel/analytics": "^0.1.8",
+    "copy-to-clipboard": "^3.3.3",
     "lodash": "^4.17.21",
     "lucide-react": "^0.88.0",
     "next": "^13.1.6",

@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { ReactSketchCanvas } from "react-sketch-canvas";
 
 import { Undo as UndoIcon, Trash as TrashIcon } from "lucide-react";

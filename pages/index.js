@@ -3,16 +3,12 @@ import PromptForm from "components/prompt-form";
 import Head from "next/head";
 import { useState } from "react";
 import Predictions from "components/predictions";
-import Footer from "components/footer";
+import Error from "components/error";
 import uploadFile from "lib/upload";
 import Script from "next/script";
 import seeds from "lib/seeds";
-
-const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
-
-export const appName = "Scribble Diffusion";
-export const appSubtitle = "Turn your sketch into a refined image using AI";
-export const appMetaDescription = appSubtitle;
+import pkg from "../package.json";
+import sleep from "lib/sleep";
 
 export default function Home() {
   const [error, setError] = useState(null);
@@ -84,21 +80,17 @@ export default function Home() {
   return (
     <div>
       <Head>
-        <title>{appName}</title>
-        <meta name="description" content={appMetaDescription} />
-        <meta property="og:title" content={appName} />
-        <meta property="og:description" content={appMetaDescription} />
-        <meta
-          property="og:image"
-          content="https://scribblediffusion.com/opengraph.jpg"
-        />
+        <title>{pkg.appName}</title>s
       </Head>
-
       <main className="container max-w-[1024px] mx-auto p-5 ">
         <div className="container max-w-[512px] mx-auto">
           <hgroup>
-            <h1 className="text-center text-5xl font-bold m-4">{appName}</h1>
-            <p className="text-center text-xl opacity-60 m-4">{appSubtitle}</p>
+            <h1 className="text-center text-5xl font-bold m-4">
+              {pkg.appName}
+            </h1>
+            <p className="text-center text-xl opacity-60 m-4">
+              {pkg.appSubtitle}
+            </p>
           </hgroup>
 
           <Canvas
@@ -115,9 +107,7 @@ export default function Home() {
             disabled={!scribbleExists}
           />
 
-          <div className="mx-auto w-full">
-            {error && <p className="bold text-red-500 pb-5">{error}</p>}
-          </div>
+          <Error error={error} />
         </div>
 
         <Predictions
@@ -125,8 +115,6 @@ export default function Home() {
           isProcessing={isProcessing}
           submissionCount={submissionCount}
         />
-
-        <Footer />
       </main>
 
       <Script src="https://js.upload.io/upload-js-full/v1" />
