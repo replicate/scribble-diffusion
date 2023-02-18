@@ -55,7 +55,7 @@ export default function Canvas({
 
       <ReactSketchCanvas
         ref={canvasRef}
-        className="w-full aspect-square border-none"
+        className="w-full aspect-square border-none cursor-crosshair"
         strokeWidth={4}
         strokeColor="black"
         onChange={onChange}
