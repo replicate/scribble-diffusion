@@ -16,6 +16,13 @@ export default function Footer({ events }) {
       <div className="text-center lil-text mt-8">
         Powered by{" "}
         <Link
+          href="https://github.com/lllyasviel/ControlNet"
+          target="_blank"
+        >
+          ControlNet
+        </Link> by <Link href="https://lllyasviel.github.io/Style2PaintsResearch/lvmin" target="_blank">Lyumin Zhang</Link>
+        ,{" "}
+        <Link
           href="https://replicate.com/jagilley/controlnet-scribble?utm_source=project&utm_campaign=scribblediffusion"
           target="_blank"
         >
@@ -25,17 +32,17 @@ export default function Footer({ events }) {
         <Link href="https://vercel.com/templates/ai" target="_blank">
           Vercel
         </Link>
-        ,{" "}
+        , and {" "}
         <Link href="https://upload.io" target="_blank">
           Upload
         </Link>
-        , and{" "}
+        .{" "}
         <Link
           href="https://github.com/replicate/scribble-diffusion"
-          target="_blank"
-        >
-          GitHub
-        </Link>
+          target="_blank">
+        
+          Source is on GitHub
+        </Link>.
       </div>
     </footer>
   );
