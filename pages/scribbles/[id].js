@@ -5,7 +5,7 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import pkg from "../../package.json";
 
-export default function Scribble() {
+export default const Scribble = () => {
   const { query } = useRouter();
 
   const [prediction, setPrediction] = useState(null);
