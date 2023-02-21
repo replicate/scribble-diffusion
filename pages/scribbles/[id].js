@@ -1,43 +1,13 @@
-import Error from "components/error";
 import { Prediction } from "components/predictions";
 import Head from "next/head";
-import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
 import pkg from "../../package.json";
 
-export default function Scribble() {
-  const { query } = useRouter();
+const HOST =
+  process.env.NODE_ENV === "production"
+    ? "https://scribblediffusion.com"
+    : "http://localhost:3000";
 
-  const [predictionId, setPredictionId] = useState(null);
-  const [prediction, setPrediction] = useState(null);
-  const [error, setError] = useState(null);
-  const [queryResolved, setQueryResolved] = useState(false);
-
-  useEffect(() => {
-    // Hack to work around some Next.js quirks
-    // "Pages that are statically optimized by Automatic Static Optimization
-    // will be hydrated without their route parameters provided, i.e query
-    // will be an empty object ({})."
-    if (query?.id && !queryResolved) {
-      // Next.js seems to sometimes call this hook multiple times, so we need
-      // to make sure we only fetch the prediction once
-      setQueryResolved(true);
-      setPredictionId(query.id);
-
-      const fetchPrediction = async () => {
-        const response = await fetch(`/api/predictions/${query.id}`);
-        const prediction = await response.json();
-        setPrediction(prediction);
-
-        if (response.status !== 201) {
-          setError(prediction.detail);
-        }
-      };
-
-      fetchPrediction();
-    }
-  }, [query, queryResolved]);
-
+export default function Scribble({ prediction }) {
   return (
     <div>
       <Head>
@@ -47,13 +17,26 @@ export default function Scribble() {
         </title>
         <meta
           property="og:image"
-          content={`https://scribblediffusion.com/api/og?id=${predictionId}`}
+          content={`${HOST}/api/og?id=${prediction.id}`}
         />
       </Head>
       <main className="container max-w-[1024px] mx-auto p-5">
         <Prediction prediction={prediction} showLinkToNewScribble={true} />
-        <Error error={error} />
       </main>
     </div>
   );
+}
+
+// Use getServerSideProps to force Next.js to render the page on the server,
+// so the OpenGraph meta tags will have the proper URL at render time.
+export async function getServerSideProps({ req }) {
+  // Hack to get the protocol and host from headers:
+  // https://github.com/vercel/next.js/discussions/44527
+  const protocol = req.headers.referer?.split("://")[0] || "http";
+  const predictionId = req.url.split("/")[2];
+  const response = await fetch(
+    `${protocol}://${req.headers.host}/api/predictions/${predictionId}`
+  );
+  const prediction = await response.json();
+  return { props: { prediction } };
 }
