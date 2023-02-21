@@ -2,12 +2,7 @@ import { Prediction } from "components/predictions";
 import Head from "next/head";
 import pkg from "../../package.json";
 
-const HOST =
-  process.env.NODE_ENV === "production"
-    ? "https://scribblediffusion.com"
-    : "http://localhost:3000";
-
-export default function Scribble({ prediction }) {
+export default function Scribble({ prediction, baseUrl }) {
   return (
     <div>
       <Head>
@@ -15,9 +10,12 @@ export default function Scribble({ prediction }) {
           {prediction && `${prediction.input.prompt} - `}
           {pkg.appName}
         </title>
+        <meta name="description" content={prediction.input.prompt} />
+        <meta property="og:title" content={pkg.appName} />
+        <meta property="og:description" content={prediction.input.prompt} />
         <meta
           property="og:image"
-          content={`${HOST}/api/og?id=${prediction.id}`}
+          content={`${baseUrl}/api/og?id=${prediction.id}`}
         />
       </Head>
       <main className="container max-w-[1024px] mx-auto p-5">
@@ -34,9 +32,8 @@ export async function getServerSideProps({ req }) {
   // https://github.com/vercel/next.js/discussions/44527
   const protocol = req.headers.referer?.split("://")[0] || "http";
   const predictionId = req.url.split("/")[2];
-  const response = await fetch(
-    `${protocol}://${req.headers.host}/api/predictions/${predictionId}`
-  );
+  const baseUrl = `${protocol}://${req.headers.host}`;
+  const response = await fetch(`${baseUrl}/api/predictions/${predictionId}`);
   const prediction = await response.json();
-  return { props: { prediction } };
+  return { props: { baseUrl, prediction } };
 }
