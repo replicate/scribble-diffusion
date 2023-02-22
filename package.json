@@ -19,6 +19,7 @@
     "copy-to-clipboard": "^3.3.3",
     "lodash": "^4.17.21",
     "lucide-react": "^0.88.0",
+    "naughty-words": "^1.2.0",
     "next": "^13.1.6",
     "react": "18.2.0",
     "react-dom": "18.2.0",

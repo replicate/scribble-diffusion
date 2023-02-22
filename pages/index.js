@@ -5,6 +5,7 @@ import { useState } from "react";
 import Predictions from "components/predictions";
 import Error from "components/error";
 import uploadFile from "lib/upload";
+import naughtyWords from "naughty-words";
 import Script from "next/script";
 import seeds from "lib/seeds";
 import pkg from "../package.json";
@@ -30,7 +31,10 @@ export default function Home() {
     // track submissions so we can show a spinner while waiting for the next prediction to be created
     setSubmissionCount(submissionCount + 1);
 
-    const prompt = e.target.prompt.value;
+    const prompt = e.target.prompt.value
+      .split(/\s+/)
+      .map((word) => (naughtyWords.en.includes(word) ? "something" : word))
+      .join(" ");
 
     setError(null);
     setIsProcessing(true);
