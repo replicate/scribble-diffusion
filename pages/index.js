@@ -10,12 +10,9 @@ import Script from "next/script";
 import seeds from "lib/seeds";
 import pkg from "../package.json";
 import sleep from "lib/sleep";
+import getAppHost from "lib/get-app-host";
 
-const HOST = process.env.VERCEL_URL
-  ? `https://${process.env.VERCEL_URL}`
-  : "http://localhost:3000";
-
-export default function Home() {
+export default function Home({ appHost }) {
   const [error, setError] = useState(null);
   const [submissionCount, setSubmissionCount] = useState(0);
   const [predictions, setPredictions] = useState({});
@@ -93,7 +90,7 @@ export default function Home() {
         <meta property="og:description" content={pkg.appMetaDescription} />
         <meta
           property="og:image"
-          content={`${HOST}/og-b7xwc4g4wrdrtneilxnbngzvti.png`}
+          content={`${appHost}/og-b7xwc4g4wrdrtneilxnbngzvti.png`}
         />
         <title>{pkg.appName}</title>s
       </Head>
@@ -135,4 +132,9 @@ export default function Home() {
       <Script src="https://js.upload.io/upload-js-full/v1" />
     </div>
   );
+}
+
+export async function getServerSideProps({ req }) {
+  const appHost = getAppHost(req);
+  return { props: { appHost } };
 }

@@ -1,6 +1,7 @@
 import { ImageResponse } from "@vercel/og";
 import { NextRequest } from "next/server";
 import Image from "next/image";
+import getAppHost from "lib/get-app-host";
 
 export const config = {
   runtime: "edge",
@@ -13,15 +14,10 @@ export default async function handler(req) {
   const predictionId = searchParams.get("id");
   let inputImageURL, outputImageURL;
 
-  // extract protocol and host from the request url, so we can call the local API
-  const url = new URL(req.url);
-  const protocol = url.protocol;
-  const host = url.host;
+  const appHost = getAppHost(req);
 
   if (predictionId) {
-    const response = await fetch(
-      `${protocol}//${host}/api/predictions/${predictionId}`
-    );
+    const response = await fetch(`${appHost}/api/predictions/${predictionId}`);
     const prediction = await response.json();
 
     if (response.status === 200) {
