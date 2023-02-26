@@ -2,9 +2,9 @@ const REPLICATE_API_HOST = "https://api.replicate.com";
 
 import packageData from "../../../package.json";
 
-const HOST = process.env.VERCEL_URL
+const WEBHOOK_HOST = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
-  : "http://localhost:3000";
+  : process.env.NGROK_HOST;
 
 export default async function handler(req, res) {
   if (!process.env.REPLICATE_API_TOKEN) {
@@ -17,7 +17,7 @@ export default async function handler(req, res) {
     // https://replicate.com/jagilley/controlnet-scribble/versions
     version: "435061a1b5a4c1e26740464bf786efdfa9cb3a3ac488595a2de23e143fdb0117",
     input: req.body,
-    webhook: `${HOST}/api/replicate-webhook`,
+    webhook: `${WEBHOOK_HOST}/api/replicate-webhook`,
     webhook_events_filter: ["start", "completed"],
   });
 

@@ -1,9 +1,11 @@
-// The webhook will be a POST request where the request body is the
-// same as the response body of the get prediction operation. If
-// there are network problems, we will retry the webhook a few
-// times, so make sure it can be safely called more than once.
+// The Replicate webhook is a POST request where the request body is a prediction object.
+// Identical webhooks can be sent multiple times, so this handler must be idempotent.
+
+import upsertPrediction from "../../lib/db";
 
 export default async function handler(req, res) {
-  console.log("Received webhook", req.body);
+  console.log("received webhook for prediction: ", req.body.id);
+  await upsertPrediction(req.body);
+
   res.end();
 }
