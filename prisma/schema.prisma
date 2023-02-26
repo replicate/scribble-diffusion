@@ -1,0 +1,24 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider          = "mysql"
+  url               = env("DATABASE_URL")
+  relationMode = "prisma"
+}
+
+model Prediction {
+  id    Int     @id @default(autoincrement())
+  uuid  String  @unique
+  input Json?
+  output Json?
+  status String?
+  created_at DateTime?
+  started_at DateTime?
+  completed_at DateTime?
+  version String?
+  metrics Json?
+  error String?
+  logs String? @db.Text
+}
