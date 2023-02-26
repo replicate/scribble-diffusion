@@ -47,7 +47,10 @@ export function Prediction({ prediction, showLinkToNewScribble = false }) {
   const [linkCopied, setLinkCopied] = useState(false);
 
   const copyLink = () => {
-    const url = window.location.origin + "/scribbles/" + prediction.id;
+    const url =
+      window.location.origin +
+      "/scribbles/" +
+      (prediction.uuid || prediction.id); // if the prediction is from the Replicate API it'll have `id`. If it's from the SQL database, it'll have `uuid`
     copy(url);
     setLinkCopied(true);
   };
