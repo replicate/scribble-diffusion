@@ -13,7 +13,12 @@
     "lint": "next lint",
     "test": "npm run lint && npm run build"
   },
+  "browser": {
+    "@prisma/client": false,
+    "prisma": false
+  },
   "dependencies": {
+    "@prisma/client": "^4.10.1",
     "@vercel/analytics": "^0.1.10",
     "@vercel/og": "^0.1.0",
     "copy-to-clipboard": "^3.3.3",
@@ -32,6 +37,7 @@
     "eslint": "8.23.0",
     "eslint-config-next": "12.2.5",
     "postcss": "^8.4.16",
+    "prisma": "^4.10.1",
     "tailwindcss": "^3.1.8",
     "tailwindcss-animate": "^1.0.5"
   }
