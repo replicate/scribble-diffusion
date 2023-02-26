@@ -13,6 +13,10 @@
     "lint": "next lint",
     "test": "npm run lint && npm run build"
   },
+  "browser": {
+    "@prisma/client": false,
+    "prisma": false
+  },
   "dependencies": {
     "@prisma/client": "^4.10.1",
     "@vercel/analytics": "^0.1.10",
