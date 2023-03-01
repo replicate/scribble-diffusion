@@ -52,3 +52,6 @@ input {
   @apply text-gray-600;
   @apply underline;
 }
+
+
+#contrastcanvas,#dataurl,#dataurl-header,#canvas,#video,#click-photo{display:none;}
