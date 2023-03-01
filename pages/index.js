@@ -189,10 +189,10 @@ function _toPixels (canvas) {
 
     video.srcObject = stream;
     video.style.display = 'block';
-    // hide campera button
     video.style.display = 'block';
     click_button.style.display = 'block';
     canvas.style.display = 'block';
+    
     
   };
 
@@ -255,8 +255,6 @@ function _toPixels (canvas) {
           submissionCount={submissionCount}
         />
       </main>
-      <Script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.10.2/p5.js" />
-      <Script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.10.2/addons/p5.sound.min.js" />
       <Script src="https://js.upload.io/upload-js-full/v1" />
     </div>
   );
