@@ -6,15 +6,7 @@ import Footer from "components/footer";
 export default function Document() {
   return (
     <Html>
-      <Head>
-        <meta name="description" content={pkg.appMetaDescription} />
-        <meta property="og:title" content={pkg.appName} />
-        <meta property="og:description" content={pkg.appMetaDescription} />
-        <meta
-          property="og:image"
-          content="https://scribblediffusion.com/opengraph.jpg"
-        />
-      </Head>
+      <Head></Head>
 
       <body className="bg-gray-100">
         <Main />

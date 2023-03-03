@@ -5,10 +5,15 @@ import { useState } from "react";
 import Predictions from "components/predictions";
 import Error from "components/error";
 import uploadFile from "lib/upload";
+import naughtyWords from "naughty-words";
 import Script from "next/script";
 import seeds from "lib/seeds";
 import pkg from "../package.json";
 import sleep from "lib/sleep";
+
+const HOST = process.env.VERCEL_URL
+  ? `https://${process.env.VERCEL_URL}`
+  : "http://localhost:3000";
 
 export default function Home() {
   const [error, setError] = useState(null);
@@ -26,7 +31,10 @@ export default function Home() {
     // track submissions so we can show a spinner while waiting for the next prediction to be created
     setSubmissionCount(submissionCount + 1);
 
-    const prompt = e.target.prompt.value;
+    const prompt = e.target.prompt.value
+      .split(/\s+/)
+      .map((word) => (naughtyWords.en.includes(word) ? "something" : word))
+      .join(" ");
 
     setError(null);
     setIsProcessing(true);
@@ -80,6 +88,13 @@ export default function Home() {
   return (
     <div>
       <Head>
+        <meta name="description" content={pkg.appMetaDescription} />
+        <meta property="og:title" content={pkg.appName} />
+        <meta property="og:description" content={pkg.appMetaDescription} />
+        <meta
+          property="og:image"
+          content={`${HOST}/og-b7xwc4g4wrdrtneilxnbngzvti.png`}
+        />
         <title>{pkg.appName}</title>s
       </Head>
       <main className="container max-w-[1024px] mx-auto p-5 ">
