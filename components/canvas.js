@@ -13,6 +13,12 @@ export default function Canvas({
   const canvasRef = React.useRef(null);
 
   useEffect(() => {
+    // Hack to work around Firfox bug in react-sketch-canvas
+    // https://github.com/vinothpandian/react-sketch-canvas/issues/54
+    document
+      .querySelector("#react-sketch-canvas__stroke-group-0")
+      ?.removeAttribute("mask");
+
     loadStartingPaths();
   }, []);
 
