@@ -4,7 +4,7 @@ import pkg from "../../package.json";
 import { useRouter } from "next/router";
 
  patch-1
- const Scribble = ({prediction, baseUrl}) => {
+ const Scribble = () => {
   const { query } = useRouter();
 
   const [prediction, setPrediction] = useState(null);
@@ -69,4 +69,4 @@ export async function getServerSideProps({ req }) {
   const prediction = await response.json();
   return { props: { baseUrl, prediction } };
 }
-export default Scribble;
+export default Scribble({{prediction, baseUrl}});
