@@ -97,20 +97,6 @@ export default function Home() {
     setIsProcessing(false);
   };
   
-
-  function contrastImage(imageData, contrast) {  // contrast input as percent; range [-1..1]
-    var data = imageData.data;  // Note: original dataset modified directly!
-    contrast *= 255;
-    var factor = (contrast + 255) / (255.01 - contrast);  //add .1 to avoid /0 error.
-
-    for(var i=0;i<data.length;i+=4)
-    {
-        data[i] = factor * (data[i] - 128) + 128;
-        data[i+1] = factor * (data[i+1] - 128) + 128;
-        data[i+2] = factor * (data[i+2] - 128) + 128;
-    }
-    return imageData;  //optional (e.g. for filter function chaining)
-}
 function treshold(canvas, level) {
   const pixels = _toPixels(canvas);
 
@@ -173,7 +159,7 @@ function _toPixels (canvas) {
     var ctxOrig = canvas.getContext("2d");
     var ctxOrigcontrasted = contrastcanvas.getContext("2d");
     var origBits = ctxOrig.getImageData(0, 0,canvas.width, canvas.height);
-    treshold(origBits, 0.58);
+    //treshold(origBits, 0.77);
     ctxOrigcontrasted.putImageData(origBits, 0, 0);
     // end contrast
 
