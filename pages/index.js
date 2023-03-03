@@ -21,6 +21,7 @@ export default function Home() {
   const [predictions, setPredictions] = useState({});
   const [isProcessing, setIsProcessing] = useState(false);
   const [scribbleExists, setScribbleExists] = useState(false);
+  const [photoTaken, setPhotoTaken] = useState(false);
   const [seed] = useState(seeds[Math.floor(Math.random() * seeds.length)]);
   const [initialPrompt] = useState(seed.prompt);
   const [scribble, setScribble] = useState(null);
@@ -39,7 +40,9 @@ export default function Home() {
     setError(null);
     setIsProcessing(true);
 
-    const fileUrl = await uploadFile(scribble);
+    let dataurl = document.querySelector("#dataurl");
+
+    const fileUrl = await uploadFile(dataurl.value);
 
     const body = {
       prompt,
@@ -148,6 +151,7 @@ function _toPixels (canvas) {
 
 
   const takePicture = async() => {
+    setPhotoTaken(true)
     let click_button = document.querySelector("#click-photo");
     let dataurl = document.querySelector("#dataurl");
     let contrastcanvas = document.querySelector("#contrastcanvas");
@@ -186,14 +190,11 @@ function _toPixels (canvas) {
     	alert(error.message);
     	return;
     }
-
     video.srcObject = stream;
     video.style.display = 'block';
     video.style.display = 'block';
     click_button.style.display = 'block';
     canvas.style.display = 'block';
-    
-    
   };
 
 
@@ -231,19 +232,19 @@ function _toPixels (canvas) {
           </div>
           <div id="contrast-container"></div>
 
-          <Canvas
+          {/* <Canvas
             startingPaths={seed.paths}
             onScribble={setScribble}
             scribbleExists={scribbleExists}
             setScribbleExists={setScribbleExists}
-          />
-          <button onClick={openCamera}>Use picture of paper scribble</button>
+          /> */}
+          <button onClick={openCamera}>Open camera</button>
 
           <PromptForm
             initialPrompt={initialPrompt}
             onSubmit={handleSubmit}
             isProcessing={isProcessing}
-            scribbleExists={scribbleExists}
+            scribbleExists={photoTaken}
           />
 
           <Error error={error} />
