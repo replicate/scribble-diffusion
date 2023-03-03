@@ -52,3 +52,7 @@ input {
   @apply text-gray-600;
   @apply underline;
 }
+
+#canvas, #dataurl-container , #dataurl-header, #dataurl{
+  display: none;
+}
