@@ -1,9 +1,10 @@
 import { Prediction } from "components/predictions";
 import Head from "next/head";
 import pkg from "../../package.json";
+import { useRouter } from "next/router";
 
  patch-1
- const Scribble = () => {
+ const Scribble = ({prediction, baseUrl}) => {
   const { query } = useRouter();
 
   const [prediction, setPrediction] = useState(null);
@@ -34,8 +35,6 @@ import pkg from "../../package.json";
     }
   }, [query, queryResolved]);
 
-
-export default function Scribble({ prediction, baseUrl }) {
  main
   return (
     <div>
@@ -57,7 +56,6 @@ export default function Scribble({ prediction, baseUrl }) {
       </main>
     </div>
   );
-}
 
 // Use getServerSideProps to force Next.js to render the page on the server,
 // so the OpenGraph meta tags will have the proper URL at render time.
@@ -71,3 +69,4 @@ export async function getServerSideProps({ req }) {
   const prediction = await response.json();
   return { props: { baseUrl, prediction } };
 }
+export default Scribble;
