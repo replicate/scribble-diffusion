@@ -53,5 +53,6 @@ input {
   @apply underline;
 }
 
-
-#contrastcanvas,#dataurl,#dataurl-header,#canvas,#video,#click-photo{display:none;}
+#canvas, #dataurl-container , #dataurl-header, #dataurl{
+  display: none;
+}

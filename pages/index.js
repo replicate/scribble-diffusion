@@ -10,6 +10,7 @@ import Script from "next/script";
 import seeds from "lib/seeds";
 import pkg from "../package.json";
 import sleep from "lib/sleep";
+import { waitUntilSymbol } from "next/dist/server/web/spec-extension/fetch-event";
 
 const HOST = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
@@ -21,6 +22,7 @@ export default function Home() {
   const [predictions, setPredictions] = useState({});
   const [isProcessing, setIsProcessing] = useState(false);
   const [scribbleExists, setScribbleExists] = useState(false);
+  const [photoMode, setPhotoMode] = useState(false);
   const [photoTaken, setPhotoTaken] = useState(false);
   const [seed] = useState(seeds[Math.floor(Math.random() * seeds.length)]);
   const [initialPrompt] = useState(seed.prompt);
@@ -40,9 +42,14 @@ export default function Home() {
     setError(null);
     setIsProcessing(true);
 
-    let dataurl = document.querySelector("#dataurl");
-
-    const fileUrl = await uploadFile(dataurl.value);
+    let imageContents = '';
+    if(photoMode) {
+      let dataurl = document.querySelector("#dataurl");
+      imageContents = dataurl.value;
+    }else{
+      imageContents = scribble
+    }
+    const fileUrl = await uploadFile(imageContents);
 
     const body = {
       prompt,
@@ -85,8 +92,11 @@ export default function Home() {
       }
     }
 
+    
+
     setIsProcessing(false);
   };
+  
 
   function contrastImage(imageData, contrast) {  // contrast input as percent; range [-1..1]
     var data = imageData.data;  // Note: original dataset modified directly!
@@ -149,9 +159,8 @@ function _toPixels (canvas) {
   }
 };
 
-
   const takePicture = async() => {
-    setPhotoTaken(true)
+    setPhotoTaken(true);
     let click_button = document.querySelector("#click-photo");
     let dataurl = document.querySelector("#dataurl");
     let contrastcanvas = document.querySelector("#contrastcanvas");
@@ -166,9 +175,9 @@ function _toPixels (canvas) {
     var origBits = ctxOrig.getImageData(0, 0,canvas.width, canvas.height);
     treshold(origBits, 0.58);
     ctxOrigcontrasted.putImageData(origBits, 0, 0);
-
     // end contrast
-    let image_data_url = canvas.toDataURL('image/jpeg');
+
+    let image_data_url = contrastcanvas.toDataURL('image/jpeg');
     console.log('image_data_url');
 
     dataurl.value = image_data_url;
@@ -177,11 +186,11 @@ function _toPixels (canvas) {
     contrastcanvas.style.display = 'block';
     //click_button.style.display = 'none';
   }
+  const closeCamera = () => {
+    setPhotoMode(false);
+  }
   const openCamera = async () =>  {
-    console.log('Open camera');
-    let video =  document.querySelector("#video");
-    let click_button = document.querySelector("#click-photo");
-    let canvas = document.querySelector("#canvas");
+    setPhotoMode(true);
     let stream = null;
     try {
     	stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: false });
@@ -190,12 +199,12 @@ function _toPixels (canvas) {
     	alert(error.message);
     	return;
     }
-    video.srcObject = stream;
-    video.style.display = 'block';
-    video.style.display = 'block';
-    click_button.style.display = 'block';
-    canvas.style.display = 'block';
+    setTimeout(() => {  
+      let video =  document.querySelector("#video");
+      video.srcObject = stream; }, 500);    
   };
+
+
 
 
   return (
@@ -222,29 +231,41 @@ function _toPixels (canvas) {
             </p>
           </hgroup>
 
-          <video id="video" width="320" height="240" autoPlay></video>
-          <button id="click-photo" onClick={takePicture} >Take Photo</button>
-          <div id="dataurl-container">
-              <canvas id="canvas" width="320" height="240"></canvas>
-              <canvas id="contrastcanvas" width="320" height="240"></canvas>
-              <div id="dataurl-header">Image Data URL</div>
-              <textarea id="dataurl" readOnly></textarea>
-          </div>
-          <div id="contrast-container"></div>
+          {photoMode == true && 
+            <div>
+              <video id="video" width="320" height="240" autoPlay></video>
+              <button id="click-photo" onClick={takePicture} >Take Photo</button>
+              <div id="dataurl-container">
+                <canvas id="canvas" width="320" height="240"></canvas>
+                <canvas id="contrastcanvas" width="320" height="240"></canvas>
+                <div id="dataurl-header">Image Data URL</div>
+                <textarea id="dataurl" readOnly></textarea>
+              </div>
+              <div id="contrast-container"></div>
+              <button onClick={closeCamera}>Reset</button>
+            </div>
+            
+          }
 
-          {/* <Canvas
-            startingPaths={seed.paths}
-            onScribble={setScribble}
-            scribbleExists={scribbleExists}
-            setScribbleExists={setScribbleExists}
-          /> */}
-          <button onClick={openCamera}>Open camera</button>
+          {photoMode == false && 
+            <div  >
+              <Canvas
+              startingPaths={seed.paths}
+              onScribble={setScribble}
+              scribbleExists={scribbleExists}
+              setScribbleExists={setScribbleExists}
+              />   
+              <button onClick={openCamera}>Open camera</button>
+            </div>
+          }
+          
+          
 
           <PromptForm
             initialPrompt={initialPrompt}
             onSubmit={handleSubmit}
             isProcessing={isProcessing}
-            scribbleExists={photoTaken}
+            scribbleExists={photoTaken || scribbleExists}
           />
 
           <Error error={error} />
