@@ -3,7 +3,7 @@ import Head from "next/head";
 import pkg from "../../package.json";
 
  patch-1
-export default const Scribble = () => {
+ const Scribble = () => {
   const { query } = useRouter();
 
   const [prediction, setPrediction] = useState(null);
