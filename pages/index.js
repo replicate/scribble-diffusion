@@ -86,7 +86,7 @@ export default function Home() {
   };
 
   return (
-    <div>
+    <>
       <Head>
         <title>{pkg.appName}</title>
         <meta name="description" content={pkg.appMetaDescription} />
@@ -133,6 +133,6 @@ export default function Home() {
       </main>
 
       <Script src="https://js.upload.io/upload-js-full/v1" />
-    </div>
+    </>
   );
 }
