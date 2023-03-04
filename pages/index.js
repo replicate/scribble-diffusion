@@ -96,6 +96,7 @@ export default function Home() {
           content={`${HOST}/og-b7xwc4g4wrdrtneilxnbngzvti.png`}
         />
         <title>{pkg.appName}</title>s
+        <link rel="shortcut icon" href="/favicon.ico" />
       </Head>
       <main className="container max-w-[1024px] mx-auto p-5 ">
         <div className="container max-w-[512px] mx-auto">
