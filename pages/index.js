@@ -97,6 +97,7 @@ export default function Home() {
         />
         <title>{pkg.appName}</title>s
         <link rel="shortcut icon" href="/favicon.ico" />
+        <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
       </Head>
       <main className="container max-w-[1024px] mx-auto p-5 ">
         <div className="container max-w-[512px] mx-auto">
