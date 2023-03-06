@@ -20,28 +20,6 @@ export default function Footer({ events }) {
         </div>
       </div>
 
-      <div className="text-center text-sm mt-8">
-        <div className="inline-block py-3 px-4 border border-red-200 bg-red-100 text-orange-900 rounded-lg">
-          🔥 Scribbling now{" "}
-          <Link
-            href="https://scribblediffusion.com/scribbles/onyckvbesfespbtkaz2j2atnou"
-            target="_blank"
-            className="text-orange-900 underline"
-          >
-            works on Firefox
-          </Link>{" "}
-          thanks to{" "}
-          <Link
-            href="https://github.com/replicate/scribble-diffusion/issues/31#issuecomment-1451288647"
-            target="_blank"
-            className="text-orange-900 underline"
-          >
-            @scsmash3r
-          </Link>
-          !
-        </div>
-      </div>
-
       <div className="text-center lil-text mt-8">
         Powered by{" "}
         <Link href="https://github.com/lllyasviel/ControlNet" target="_blank">
