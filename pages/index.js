@@ -86,16 +86,16 @@ export default function Home() {
   };
 
   return (
-    <div>
+    <>
       <Head>
+        <title>{pkg.appName}</title>
         <meta name="description" content={pkg.appMetaDescription} />
         <meta property="og:title" content={pkg.appName} />
         <meta property="og:description" content={pkg.appMetaDescription} />
         <meta
           property="og:image"
-          content={`${HOST}/og-b7xwc4g4wrdrtneilxnbngzvti.png`}
+          content={`${HOST}/og-b7xwc4g4wrdrtneilxnbngzvti.jpg`}
         />
-        <title>{pkg.appName}</title>s
         <link rel="icon" href="/favicon.ico" sizes="any" />
         <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
       </Head>
@@ -135,6 +135,6 @@ export default function Home() {
       </main>
 
       <Script src="https://js.upload.io/upload-js-full/v1" />
-    </div>
+    </>
   );
 }
