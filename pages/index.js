@@ -86,8 +86,9 @@ export default function Home() {
   };
 
   return (
-    <div>
+    <>
       <Head>
+        <title>{pkg.appName}</title>
         <meta name="description" content={pkg.appMetaDescription} />
         <meta property="og:title" content={pkg.appName} />
         <meta property="og:description" content={pkg.appMetaDescription} />
@@ -95,7 +96,6 @@ export default function Home() {
           property="og:image"
           content={`${HOST}/og-b7xwc4g4wrdrtneilxnbngzvti.jpg`}
         />
-        <title>{pkg.appName}</title>s
       </Head>
       <main className="container max-w-[1024px] mx-auto p-5 ">
         <div className="container max-w-[512px] mx-auto">
@@ -133,6 +133,6 @@ export default function Home() {
       </main>
 
       <Script src="https://js.upload.io/upload-js-full/v1" />
-    </div>
+    </>
   );
 }
