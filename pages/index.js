@@ -93,7 +93,7 @@ export default function Home() {
         <meta property="og:description" content={pkg.appMetaDescription} />
         <meta
           property="og:image"
-          content={`${HOST}/og-b7xwc4g4wrdrtneilxnbngzvti.png`}
+          content={`${HOST}/og-b7xwc4g4wrdrtneilxnbngzvti.jpg`}
         />
         <title>{pkg.appName}</title>s
       </Head>
