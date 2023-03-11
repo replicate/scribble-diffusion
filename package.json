@@ -30,7 +30,6 @@
     "react-dom": "18.2.0",
     "react-sketch-canvas": "^6.2.0",
     "react-spinners": "^0.13.8",
-    "replicate": "github:replicate/replicate-js",
     "upload-js-full": "^1.22.0"
   },
   "devDependencies": {
