@@ -12,20 +12,29 @@ export default async function handler(req, res) {
   }
 
   const input = req.body;
-  const prediction = await replicate
-    .model(
-      "jagilley/controlnet-scribble:435061a1b5a4c1e26740464bf786efdfa9cb3a3ac488595a2de23e143fdb0117"
-    )
-    .createPrediction(
-      { input },
-      {
-        webhook: `${WEBHOOK_HOST}/api/replicate-webhook`,
-        webhookEventsFilter: ["completed"],
-      }
-    );
+  let prediction;
+
+  try {
+    prediction = await replicate
+      .model(
+        "jagilley/controlnet-scribble:435061a1b5a4c1e26740464bf786efdfa9cb3a3ac488595a2de23e143fdb0117"
+      )
+      .createPrediction(
+        { input },
+        {
+          webhook: `${WEBHOOK_HOST}/api/replicate-webhook`,
+          webhookEventsFilter: ["completed"],
+        }
+      );
+  } catch (error) {
+    console.log({ error });
+    res.end(JSON.stringify("something went wrong"));
+    return;
+  }
 
   if (prediction.error) {
     res.statusCode = 500;
+    console.log({ prediction });
     res.end(JSON.stringify({ detail: prediction.error }));
     return;
   }
