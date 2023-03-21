@@ -1,6 +1,10 @@
-const REPLICATE_API_HOST = "https://api.replicate.com";
-
+import Replicate from "replicate";
 import packageData from "../../../package.json";
+
+const replicate = new Replicate({
+  auth: process.env.REPLICATE_API_TOKEN,
+  userAgent: `${packageData.name}/${packageData.version}`,
+});
 
 const WEBHOOK_HOST = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
@@ -13,34 +17,22 @@ export default async function handler(req, res) {
     );
   }
 
-  const body = JSON.stringify({
-    // https://replicate.com/jagilley/controlnet-scribble/versions
+  // https://replicate.com/jagilley/controlnet-scribble/versions
+  const prediction = await replicate.predictions.create({
     version: "435061a1b5a4c1e26740464bf786efdfa9cb3a3ac488595a2de23e143fdb0117",
     input: req.body,
     webhook: `${WEBHOOK_HOST}/api/replicate-webhook`,
     webhook_events_filter: ["start", "completed"],
   });
 
-  const headers = {
-    Authorization: `Token ${process.env.REPLICATE_API_TOKEN}`,
-    "Content-Type": "application/json",
-    "User-Agent": `${packageData.name}/${packageData.version}`,
-  };
+  console.log({ prediction });
+  // if (response.status !== 201) {
+  //   let error = await response.json();
+  //   res.statusCode = 500;
+  //   res.end(JSON.stringify({ detail: error.detail }));
+  //   return;
+  // }
 
-  const response = await fetch(`${REPLICATE_API_HOST}/v1/predictions`, {
-    method: "POST",
-    headers,
-    body,
-  });
-
-  if (response.status !== 201) {
-    let error = await response.json();
-    res.statusCode = 500;
-    res.end(JSON.stringify({ detail: error.detail }));
-    return;
-  }
-
-  const prediction = await response.json();
   res.statusCode = 201;
   res.end(JSON.stringify(prediction));
 }
