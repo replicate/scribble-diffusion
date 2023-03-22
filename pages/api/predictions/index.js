@@ -25,13 +25,11 @@ export default async function handler(req, res) {
     webhook_events_filter: ["start", "completed"],
   });
 
-  console.log({ prediction });
-  // if (response.status !== 201) {
-  //   let error = await response.json();
-  //   res.statusCode = 500;
-  //   res.end(JSON.stringify({ detail: error.detail }));
-  //   return;
-  // }
+  if (prediction?.error) {
+    res.statusCode = 500;
+    res.end(JSON.stringify({ detail: prediction.error }));
+    return;
+  }
 
   res.statusCode = 201;
   res.end(JSON.stringify(prediction));
