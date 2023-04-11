@@ -34,7 +34,7 @@ export default function Footer({ events }) {
         </Link>
         ,{" "}
         <Link
-          href="https://replicate.com/jagilley/controlnet-scribble?utm_source=project&utm_campaign=scribblediffusion"
+          href="https://replicate.com/rossjillian/controlnet?utm_source=project&utm_campaign=scribblediffusion"
           target="_blank"
         >
           Replicate
