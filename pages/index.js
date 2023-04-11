@@ -44,6 +44,7 @@ export default function Home() {
     const body = {
       prompt,
       image: fileUrl,
+      structure: "scribble",
     };
 
     const response = await fetch("/api/predictions", {
