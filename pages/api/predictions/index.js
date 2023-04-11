@@ -17,9 +17,9 @@ export default async function handler(req, res) {
     );
   }
 
-  // https://replicate.com/jagilley/controlnet-scribble/versions
+  // https://replicate.com/rossjillian/controlnet
   const prediction = await replicate.predictions.create({
-    version: "435061a1b5a4c1e26740464bf786efdfa9cb3a3ac488595a2de23e143fdb0117",
+    version: "d55b9f2dcfb156089686b8f767776d5b61b007187a4e1e611881818098100fbb",
     input: req.body,
     webhook: `${WEBHOOK_HOST}/api/replicate-webhook`,
     webhook_events_filter: ["start", "completed"],
