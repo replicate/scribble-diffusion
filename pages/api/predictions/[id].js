@@ -1,3 +1,4 @@
+import { NextResponse } from "next/server";
 import Replicate from "replicate";
 import packageData from "../../../package.json";
 
@@ -6,14 +7,17 @@ const replicate = new Replicate({
   userAgent: `${packageData.name}/${packageData.version}`,
 });
 
-export default async function handler(req, res) {
-  const prediction = await replicate.predictions.get(req.query.id);
+export default async function handler(req) {
+  const predictionId = req.nextUrl.searchParams.get("id");
+  const prediction = await replicate.predictions.get(predictionId);
 
   if (prediction?.error) {
-    res.statusCode = 500;
-    res.end(JSON.stringify({ detail: prediction.error }));
-    return;
+    return NextResponse.json({ detail: prediction.error }, { status: 500 });
   }
 
-  res.end(JSON.stringify(prediction));
+  return NextResponse.json(prediction);
 }
+
+export const config = {
+  runtime: "edge",
+};
