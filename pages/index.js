@@ -1,6 +1,7 @@
 import Canvas from "components/canvas";
 import PromptForm from "components/prompt-form";
 import Head from "next/head";
+import Link from "next/link";
 import { useState } from "react";
 import Predictions from "components/predictions";
 import Error from "components/error";
@@ -110,6 +111,30 @@ export default function Home() {
               {pkg.appSubtitle}
             </p>
           </hgroup>
+
+          <div className="text-center lil-text mt-8 mb-8">
+            <div className="inline-block py-3 px-4 bg-brand text-black rounded-lg">
+              🍿 This is a project from{" "}
+              <Link
+                href="https://replicate.com?utm_source=project&utm_campaign=scribblediffusion"
+                target="_blank"
+              >
+                Replicate
+              </Link>
+              . Want to build an app like this?{" "}<br />
+              <Link
+                href="https://github.com/replicate/scribble-diffusion"
+                target="_blank"
+              >
+                Fork it on GitHub
+              </Link>{" "}
+              or check out the{" "}
+              <Link href="https://youtu.be/6z07OdbrWOs" target="_blank">
+                video tutorial
+              </Link>
+              .
+            </div>
+          </div>
 
           <Canvas
             startingPaths={seed.paths}
