@@ -1,7 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import "react-tooltip/dist/react-tooltip.css";
-import { Tooltip } from "react-tooltip";
+// import "react-tooltip/dist/react-tooltip.css";
 
 const linkStyles =
   "inline-block relative w-12 h-12 mx-2 opacity-40 hover:opacity-100 transition-all duration-200";
@@ -11,7 +10,7 @@ const imageStyles =
 export default function Footer() {
   return (
     <footer className="mt-20">
-      <div className="container max-w-[512px] mx-auto p-5">
+      <div className="">
         <p className="text-center">
           Scribble Diffusion is an open-source project from{" "}
           <Link
@@ -24,13 +23,7 @@ export default function Footer() {
           .
         </p>
 
-        <nav className="text-center mt-8">
-          <Tooltip id="replicate-tooltip" />
-          <Tooltip id="vercel-tooltip" />
-          <Tooltip id="uploadio-tooltip" />
-          <Tooltip id="github-tooltip" />
-          <Tooltip id="youtube-tooltip" />
-
+        <nav className="text-center mt-16">
           <Link
             className={linkStyles}
             href="https://replicate.com?utm_source=project&utm_campaign=scribblediffusion"
@@ -76,7 +69,7 @@ export default function Footer() {
               src="/logomarks/youtube.svg"
               data-tooltip-id="youtube-tooltip"
               data-tooltip-content="See how it was made"
-              alt="See how it works"
+              alt="See how it was made"
               className={imageStyles}
               fill={true}
               unoptimized={true}
@@ -89,8 +82,8 @@ export default function Footer() {
             <Image
               src="/logomarks/github.svg"
               data-tooltip-id="github-tooltip"
-              data-tooltip-content="Open-source repository on GitHub"
-              alt="Open-source repository on GitHub"
+              data-tooltip-content="Fork it on GitHub"
+              alt="Fork it on GitHub"
               className={imageStyles}
               fill={true}
               unoptimized={true}
