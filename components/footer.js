@@ -1,38 +1,95 @@
 import Link from "next/link";
+import Image from "next/image";
+// import "react-tooltip/dist/react-tooltip.css";
 
-export default function Footer({ events }) {
+const linkStyles =
+  "inline-block relative w-12 h-12 mx-2 opacity-40 hover:opacity-100 transition-all duration-200";
+const imageStyles =
+  "p-3 hover:p-1  transition-all duration-200  hover:saturate-100";
+
+export default function Footer() {
   return (
-    <footer className="w-full my-8">
-      
+    <footer className="mt-20">
+      <div className="">
+        <p className="text-center">
+          Scribble Diffusion is an open-source project from{" "}
+          <Link
+            className="underline"
+            href="https://replicate.com?utm_source=project&utm_campaign=scribblediffusion"
+            target="_blank"
+          >
+            Replicate
+          </Link>
+          .
+        </p>
 
-      <div className="text-center lil-text mt-8">
-        Powered by{" "}
-        <Link href="https://github.com/lllyasviel/ControlNet" target="_blank">
-          ControlNet
-        </Link>{" "}
-        by{" "}
-        <Link
-          href="https://lllyasviel.github.io/Style2PaintsResearch/lvmin"
-          target="_blank"
-        >
-          Lyumin Zhang
-        </Link>
-        ,{" "}
-        <Link
-          href="https://replicate.com/rossjillian/controlnet?utm_source=project&utm_campaign=scribblediffusion"
-          target="_blank"
-        >
-          Replicate
-        </Link>
-        ,{" "}
-        <Link href="https://vercel.com/templates/ai" target="_blank">
-          Vercel
-        </Link>
-        , and{" "}
-        <Link href="https://upload.io" target="_blank">
-          Upload
-        </Link>
-        .
+        <nav className="text-center mt-16">
+          <Link
+            className={linkStyles}
+            href="https://replicate.com?utm_source=project&utm_campaign=scribblediffusion"
+          >
+            <Image
+              src="/logomarks/replicate.svg"
+              alt="Replicate"
+              data-tooltip-id="replicate-tooltip"
+              data-tooltip-content="Built by Replicate"
+              className={imageStyles}
+              fill={true}
+              unoptimized={true}
+            />
+          </Link>
+          <Link
+            className={linkStyles}
+            href="https://upload.io?utm_source=project&utm_campaign=scribblediffusion"
+          >
+            <Image
+              src="/logomarks/uploadio.svg"
+              data-tooltip-id="uploadio-tooltip"
+              data-tooltip-content="File storage from Upload.io"
+              alt="File storage from Upload.io"
+              className={imageStyles}
+              fill={true}
+              unoptimized={true}
+            />
+          </Link>
+          <Link className={linkStyles} href="https://vercel.com/templates/ai">
+            <Image
+              src="/logomarks/vercel.svg"
+              data-tooltip-id="vercel-tooltip"
+              data-tooltip-content="Hosted on Vercel"
+              alt="Vercel"
+              className={imageStyles}
+              fill={true}
+              unoptimized={true}
+            />
+          </Link>
+
+          <Link className={linkStyles} href="https://youtu.be/6z07OdbrWOs">
+            <Image
+              src="/logomarks/youtube.svg"
+              data-tooltip-id="youtube-tooltip"
+              data-tooltip-content="See how it was made"
+              alt="See how it was made"
+              className={imageStyles}
+              fill={true}
+              unoptimized={true}
+            />
+          </Link>
+          <Link
+            className={linkStyles}
+            href="https://github.com/replicate/scribble-diffusion"
+          >
+            <Image
+              src="/logomarks/github.svg"
+              data-tooltip-id="github-tooltip"
+              data-tooltip-content="Fork it on GitHub"
+              alt="Fork it on GitHub"
+              className={imageStyles}
+              fill={true}
+              unoptimized={true}
+            />
+          </Link>
+        </nav>
       </div>
     </footer>
   );
