@@ -31,7 +31,7 @@
     "react-sketch-canvas": "^6.2.0",
     "react-spinners": "^0.13.8",
     "react-tooltip": "^5.13.0",
-    "replicate": "^0.10.0",
+    "replicate": "github:replicate/replicate-javascript#deployments",
     "upload-js-full": "^1.22.0"
   },
   "devDependencies": {
