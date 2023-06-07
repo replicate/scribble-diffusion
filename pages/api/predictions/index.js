@@ -35,7 +35,7 @@ export default async function handler(req) {
 
   const prediction = await replicate.deployments.predictions.create(
     "replicate",
-    "scribble-diffusion-controlnet",
+    "scribble-diffusion-jagilley-controlnet",
     {
       input,
       webhook: `${WEBHOOK_HOST}/api/replicate-webhook`,
