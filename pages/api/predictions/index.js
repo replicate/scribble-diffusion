@@ -28,12 +28,20 @@ export default async function handler(req) {
   const input = await getObjectFromRequestBodyStream(req.body);
 
   // https://replicate.com/rossjillian/controlnet
-  const prediction = await replicate.predictions.create({
-    version: "d55b9f2dcfb156089686b8f767776d5b61b007187a4e1e611881818098100fbb",
-    input,
-    webhook: `${WEBHOOK_HOST}/api/replicate-webhook`,
-    webhook_events_filter: ["start", "completed"],
+
+  const replicate = new Replicate({
+    auth: process.env.REPLICATE_API_TOKEN,
   });
+
+  const prediction = await replicate.deployments.predictions.create(
+    "replicate",
+    "scribble-diffusion-jagilley-controlnet",
+    {
+      input,
+      webhook: `${WEBHOOK_HOST}/api/replicate-webhook`,
+      webhook_events_filter: ["start", "completed"],
+    }
+  );
 
   if (prediction?.error) {
     return NextResponse.json({ detail: prediction.error }, { status: 500 });
