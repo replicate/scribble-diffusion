@@ -7,7 +7,7 @@ function MyApp({ Component, pageProps }) {
     <>
       <Tooltip id="replicate-tooltip" />
       <Tooltip id="vercel-tooltip" />
-      <Tooltip id="uploadio-tooltip" />
+      <Tooltip id="bytescale-tooltip" />
       <Tooltip id="github-tooltip" />
       <Tooltip id="youtube-tooltip" />
       <Component {...pageProps} />

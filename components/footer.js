@@ -40,13 +40,13 @@ export default function Footer() {
           </Link>
           <Link
             className={linkStyles}
-            href="https://upload.io?utm_source=project&utm_campaign=scribblediffusion"
+            href="https://www.bytescale.com/?utm_source=project&utm_campaign=scribblediffusion"
           >
             <Image
-              src="/logomarks/uploadio.svg"
+              src="/logomarks/bytescale.svg"
               data-tooltip-id="uploadio-tooltip"
-              data-tooltip-content="File storage from Upload.io"
-              alt="File storage from Upload.io"
+              data-tooltip-content="File storage from Bytescale"
+              alt="File storage from Bytescale"
               className={imageStyles}
               fill={true}
               unoptimized={true}
