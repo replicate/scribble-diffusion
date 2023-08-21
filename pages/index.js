@@ -136,7 +136,7 @@ export default function Home() {
         />
       </main>
 
-      <Script src="https://js.upload.io/upload-js-full/v1" />
+      <Script src="https://js.bytescale.com/upload-js-full/v1" />
     </>
   );
 }
