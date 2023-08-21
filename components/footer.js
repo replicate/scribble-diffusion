@@ -44,7 +44,7 @@ export default function Footer() {
           >
             <Image
               src="/logomarks/bytescale.svg"
-              data-tooltip-id="uploadio-tooltip"
+              data-tooltip-id="bytescale-tooltip"
               data-tooltip-content="File storage from Bytescale"
               alt="File storage from Bytescale"
               className={imageStyles}
