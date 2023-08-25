@@ -16,7 +16,12 @@ async function getObjectFromRequestBodyStream(body) {
 
 const WEBHOOK_HOST = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
-  : process.env.NGROK_HOST;
+  : (process.env.NGROK_HOST ? process.env.NGROK_HOST : `http://localhost:3000`) ;
+
+// Specify the model version to use
+const REPLICATE_MODEL_VERSION = process.env.REPLICATE_MODEL_VERSION 
+  ? process.env.REPLICATE_MODEL_VERSION 
+  : '795433b19458d0f4fa172a7ccf93178d2adb1cb8ab2ad6c8fdc33fdbcd49f477';
 
 export default async function handler(req) {
   if (!process.env.REPLICATE_API_TOKEN) {
@@ -33,10 +38,9 @@ export default async function handler(req) {
     auth: process.env.REPLICATE_API_TOKEN,
   });
 
-  const prediction = await replicate.deployments.predictions.create(
-    "replicate",
-    "scribble-diffusion-jagilley-controlnet",
+  const prediction = await replicate.predictions.create(
     {
+      version: REPLICATE_MODEL_VERSION,
       input,
       webhook: `${WEBHOOK_HOST}/api/replicate-webhook`,
       webhook_events_filter: ["start", "completed"],
