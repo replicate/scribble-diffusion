@@ -3,11 +3,27 @@ const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
   images: {
-    domains: [
-      "replicate.com",
-      "replicate.delivery",
-      "user-images.githubusercontent.com",
-      "upcdn.io"
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "replicate.com",
+      },
+      {
+        protocol: "https",
+        hostname: "replicate.delivery",
+      },
+      {
+        protocol: "https",
+        hostname: "*.replicate.delivery",
+      },
+      {
+        protocol: "https",
+        hostname: "user-images.githubusercontent.com",
+      },
+      {
+        protocol: "https",
+        hostname: "upcdn.io",
+      },
     ],
   },
   async redirects() {
@@ -21,9 +37,9 @@ const nextConfig = {
         source: "/deploy",
         destination: "https://vercel.com/templates/next.js/scribble-diffusion",
         permanent: false,
-      },   
-    ]
-  }
+      },
+    ];
+  },
 };
 
 module.exports = nextConfig;
