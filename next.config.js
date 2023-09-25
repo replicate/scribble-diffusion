@@ -6,6 +6,7 @@ const nextConfig = {
     domains: [
       "replicate.com",
       "replicate.delivery",
+      "pbxt.replicate.delivery",
       "user-images.githubusercontent.com",
       "upcdn.io"
     ],
