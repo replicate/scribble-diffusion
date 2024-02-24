@@ -1,6 +1,4 @@
-# 🖍️ Scribble Diffusion
 
-Try it out at [scribblediffusion.com](https://scribblediffusion.com)
 
 ## How it works
 
@@ -21,7 +19,7 @@ This app is powered by:
 ## Development
 
 1. Install a recent version of [Node.js](https://nodejs.org/)
-1. Copy your [Replicate API token](https://replicate.com/account?utm_source=project&utm_campaign=scribblediffusion) and set it in your environment:
+1. Copy your [Replicate API token](https://replicate.com/acount?utm_source=project&utm_campaign=scribblediffusion) and set it in your environment:
    ```
    echo "REPLICATE_API_TOKEN=<your-token-here>" > .env.local
    ```
