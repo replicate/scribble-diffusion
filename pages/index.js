@@ -1,10 +1,10 @@
 import Canvas from "components/canvas";
 import PromptForm from "components/prompt-form";
 import Head from "next/head";
-import Link from "next/link";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Predictions from "components/predictions";
 import Error from "components/error";
+import Welcome from "components/welcome";
 import uploadFile from "lib/upload";
 import naughtyWords from "naughty-words";
 import Script from "next/script";
@@ -25,6 +25,7 @@ export default function Home() {
   const [seed] = useState(seeds[Math.floor(Math.random() * seeds.length)]);
   const [initialPrompt] = useState(seed.prompt);
   const [scribble, setScribble] = useState(null);
+  const [welcomeOpen, setWelcomeOpen] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -46,6 +47,7 @@ export default function Home() {
       prompt,
       image: fileUrl,
       structure: "scribble",
+      replicate_api_token: localStorage.getItem("replicate_api_token"),
     };
 
     const response = await fetch("/api/predictions", {
@@ -72,7 +74,13 @@ export default function Home() {
       prediction.status !== "failed"
     ) {
       await sleep(500);
-      const response = await fetch("/api/predictions/" + prediction.id);
+      const response = await fetch("/api/predictions/" + prediction.id, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem(
+            "replicate_api_token"
+          )}`,
+        },
+      });
       prediction = await response.json();
       setPredictions((predictions) => ({
         ...predictions,
@@ -86,6 +94,23 @@ export default function Home() {
 
     setIsProcessing(false);
   };
+
+  const handleTokenSubmit = (e) => {
+    e.preventDefault();
+    console.log(e.target[0].value);
+    localStorage.setItem("replicate_api_token", e.target[0].value);
+    setWelcomeOpen(false);
+  };
+
+  useEffect(() => {
+    const replicateApiToken = localStorage.getItem("replicate_api_token");
+
+    if (replicateApiToken) {
+      setWelcomeOpen(false);
+    } else {
+      setWelcomeOpen(true);
+    }
+  }, []);
 
   return (
     <>
@@ -102,32 +127,36 @@ export default function Home() {
         <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
       </Head>
       <main className="container max-w-[1024px] mx-auto p-5 ">
-        <div className="container max-w-[512px] mx-auto">
-          <hgroup>
-            <h1 className="text-center text-5xl font-bold m-4">
-              {pkg.appName}
-            </h1>
-            <p className="text-center text-xl opacity-60 m-4">
-              {pkg.appSubtitle}
-            </p>
-          </hgroup>
+        {welcomeOpen ? (
+          <Welcome handleTokenSubmit={handleTokenSubmit} />
+        ) : (
+          <div className="container max-w-[512px] mx-auto">
+            <hgroup>
+              <h1 className="text-center text-5xl font-bold m-4">
+                {pkg.appName}
+              </h1>
+              <p className="text-center text-xl opacity-60 m-4">
+                {pkg.appSubtitle}
+              </p>
+            </hgroup>
 
-          <Canvas
-            startingPaths={seed.paths}
-            onScribble={setScribble}
-            scribbleExists={scribbleExists}
-            setScribbleExists={setScribbleExists}
-          />
+            <Canvas
+              startingPaths={seed.paths}
+              onScribble={setScribble}
+              scribbleExists={scribbleExists}
+              setScribbleExists={setScribbleExists}
+            />
 
-          <PromptForm
-            initialPrompt={initialPrompt}
-            onSubmit={handleSubmit}
-            isProcessing={isProcessing}
-            scribbleExists={scribbleExists}
-          />
+            <PromptForm
+              initialPrompt={initialPrompt}
+              onSubmit={handleSubmit}
+              isProcessing={isProcessing}
+              scribbleExists={scribbleExists}
+            />
 
-          <Error error={error} />
-        </div>
+            <Error error={error} />
+          </div>
+        )}
 
         <Predictions
           predictions={predictions}

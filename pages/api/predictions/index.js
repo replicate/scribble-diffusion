@@ -2,11 +2,6 @@ import { NextResponse } from "next/server";
 import Replicate from "replicate";
 import packageData from "../../../package.json";
 
-const replicate = new Replicate({
-  auth: process.env.REPLICATE_API_TOKEN,
-  userAgent: `${packageData.name}/${packageData.version}`,
-});
-
 async function getObjectFromRequestBodyStream(body) {
   const input = await body.getReader().read();
   const decoder = new TextDecoder();
@@ -19,16 +14,14 @@ const WEBHOOK_HOST = process.env.VERCEL_URL
   : process.env.NGROK_HOST;
 
 export default async function handler(req) {
-  if (!process.env.REPLICATE_API_TOKEN) {
-    throw new Error(
-      "The REPLICATE_API_TOKEN environment variable is not set. See README.md for instructions on how to set it."
-    );
-  }
-
   const input = await getObjectFromRequestBodyStream(req.body);
 
+  // Destructure to extract replicate_api_token and keep the rest of the properties in input
+  const { replicate_api_token, ...restInput } = input;
+
   const replicate = new Replicate({
-    auth: process.env.REPLICATE_API_TOKEN,
+    auth: replicate_api_token,
+    userAgent: `${packageData.name}/${packageData.version}`,
   });
 
   let prediction;
